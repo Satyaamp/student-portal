@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Success</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Essential styles for demo - include your CSS file instead */
+        :root {
+          --primary-50: #f0f9ff;
+          --primary-500: #0ea5e9;
+          --primary-600: #0284c7;
+          --success-50: #f0fdf4;
+          --success-100: #dcfce7;
+          --success-500: #22c55e;
+          --success-600: #16a34a;
+          --neutral-200: #e5e5e5;
+          --neutral-700: #404040;
+          --neutral-800: #262626;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --radius-lg: 0.75rem;
+          --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          line-height: 1.6;
+          color: var(--neutral-800);
+          background: linear-gradient(135deg, var(--success-50) 0%, var(--primary-50) 100%);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--spacing-xl);
+        }
+
+        .success-container {
+          max-width: 600px;
+          width: 100%;
+          text-align: center;
+        }
+
+        .success-card {
+          background: white;
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-xl);
+          padding: var(--spacing-2xl);
+          border: 1px solid var(--neutral-200);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .success-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--success-500), var(--primary-500));
+        }
+
+        .success-icon {
+          width: 5rem;
+          height: 5rem;
+          background: linear-gradient(135deg, var(--success-100), var(--success-50));
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto var(--spacing-lg);
+          border: 3px solid var(--success-200);
+          position: relative;
+        }
+
+        .success-icon::before {
+          content: "✓";
+          font-size: 2.5rem;
+          color: var(--success-600);
+          font-weight: bold;
+          animation: checkmark 0.6s ease-in-out;
+        }
+
+        @keyframes checkmark {
+          0% {
+            transform: scale(0) rotate(-45deg);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.2) rotate(-45deg);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+          }
+        }
+
+        .success-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--neutral-800);
+          margin-bottom: var(--spacing-md);
+        }
+
+        .success-message {
+          font-size: 1.125rem;
+          color: var(--neutral-700);
+          margin-bottom: var(--spacing-xl);
+          line-height: 1.6;
+        }
+
+        .btn-back {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+          color: white;
+          padding: var(--spacing-md) var(--spacing-xl);
+          border-radius: var(--radius-lg);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1.125rem;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-back:hover {
+          background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+          transform: translateY(-2px);
+          box-shadow: 0 8px 15px -3px rgb(0 0 0 / 0.2);
+        }
+
+        .btn-back::before {
+          content: "←";
+          font-size: 1.25rem;
+          transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover::before {
+          transform: translateX(-2px);
+        }
+
+        .confetti {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background: var(--success-500);
+          animation: confetti-fall 3s linear infinite;
+        }
+
+        .confetti:nth-child(1) {
+          left: 10%;
+          animation-delay: 0s;
+          background: var(--success-500);
+        }
+
+        .confetti:nth-child(2) {
+          left: 20%;
+          animation-delay: 0.3s;
+          background: var(--primary-500);
+        }
+
+        .confetti:nth-child(3) {
+          left: 30%;
+          animation-delay: 0.6s;
+          background: #f59e0b;
+        }
+
+        .confetti:nth-child(4) {
+          left: 40%;
+          animation-delay: 0.9s;
+          background: var(--success-500);
+        }
+
+        .confetti:nth-child(5) {
+          left: 50%;
+          animation-delay: 1.2s;
+          background: var(--primary-500);
+        }
+
+        .confetti:nth-child(6) {
+          left: 60%;
+          animation-delay: 1.5s;
+          background: #f59e0b;
+        }
+
+        .confetti:nth-child(7) {
+          left: 70%;
+          animation-delay: 1.8s;
+          background: var(--success-500);
+        }
+
+        .confetti:nth-child(8) {
+          left: 80%;
+          animation-delay: 2.1s;
+          background: var(--primary-500);
+        }
+
+        .confetti:nth-child(9) {
+          left: 90%;
+          animation-delay: 2.4s;
+          background: #f59e0b;
+        }
+
+        @keyframes confetti-fall {
+          0% {
+            transform: translateY(-100vh) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease;
+        }
+
+        @media (max-width: 768px) {
+          .success-card {
+            padding: var(--spacing-xl);
+          }
+          
+          .success-title {
+            font-size: 1.75rem;
+          }
+          
+          .success-message {
+            font-size: 1rem;
+          }
+          
+          .btn-back {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+
+    <div class="success-container animate-fade-in-up">
+        <div class="success-card">
+            <div class="success-icon"></div>
+            <h1 class="success-title">Success!</h1>
+            <p class="success-message">
+                Student data has been updated successfully. All changes have been saved to the system.
+            </p>
+            <a href="/" class="btn-back">
+                Return to Search
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.success-card');
+            const icon = document.querySelector('.success-icon');
+            
+            // Add subtle animation to the card
+            setTimeout(() => {
+                card.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 200);
+            }, 500);
+            
+            // Add hover effect to the icon
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>

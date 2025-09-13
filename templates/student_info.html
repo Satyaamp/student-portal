@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ student[1]|title }} ({{ student[0] }})</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            color: #374151;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 2rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+        }
+        .fields-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .form-field {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            flex: 1 1 45%;
+            min-width: 250px;
+        }
+        .form-field:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .field-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+        }
+        .field-header:hover {
+            background: linear-gradient(135deg, #dbeafe 0%, #ffffff 100%);
+            color: #1e40af;
+        }
+        .field-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+            color: #9ca3af;
+        }
+        .form-field.active .field-icon {
+            transform: rotate(180deg);
+            color: #3b82f6;
+        }
+        .field-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        }
+        .form-field.active .field-content {
+            max-height: 200px;
+            opacity: 1;
+            padding: 1.5rem;
+        }
+        .field-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .field-input::placeholder {
+            color: #d1d5db; /* lighter placeholder */
+            opacity: 1;
+        }
+        .field-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #047857, #065f46);
+        }
+
+        .btn-submit.loading {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3; /* Light gray */
+            border-top: 3px solid #10b981; /* Green */
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+      
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+<h1 id="studentName" class="text-3xl font-bold mb-2 text-blue-600">
+     <i class="fa-solid fa-user"></i> {{ student[1].split(' ')[0]|title }}'s Info
+</h1>
+
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <form method="POST" action="/update" id="studentForm">
+        <div class="fields-container">
+            
+        {% set icons = [
+            "fa-id-card",       
+            "fa-user",         
+            "fa-calendar",       
+            "fa-location-dot",  
+            "fa-phone",          
+            "fa-book",          
+            "fa-graduation-cap", 
+            "fa-envelope",      
+            "fa-money-bill",   
+            "fa-note-sticky"     
+        ] %}
+
+        {% for i in range(headers|length) %}
+            <div class="form-field" data-field="{{ cleaned_headers[i] }}">
+                <div class="field-header">
+                    <i class="fa-solid {{ icons[i] }} text-gray-500 mr-2"></i> <!-- Different icon per field -->
+                    <span>{{ headers[i] }}</span>
+                    <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="field-content">
+                    <input type="text" name="{{ cleaned_headers[i] }}" value="{{ student[i] }}" class="field-input" placeholder="Enter {{ headers[i] }}" required />
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+        <br>
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn-submit" id="submitBtn">💾 Update Data</button>
+
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formFields = document.querySelectorAll('.form-field');
+    const notification = document.getElementById('notification');
+    const progressFill = document.getElementById('progressFill');
+    const submitBtn = document.getElementById('submitBtn');
+    const editedFields = new Set();
+    const totalFields = formFields.length;
+
+    function updateProgress() {
+        const percent = Math.round((editedFields.size / totalFields) * 100);
+        progressFill.style.width = percent + '%';
+        if(percent === 100) submitBtn.innerText = "🎉 Save All Changes";
+    }
+
+    formFields.forEach(field => {
+        const header = field.querySelector('.field-header');
+        const input = field.querySelector('.field-input');
+
+        header.addEventListener('click', (e) => {
+            field.classList.toggle('active');
+            if(field.classList.contains('active')) input.focus();
+            e.stopPropagation();
+        });
+
+        input.addEventListener('input', () => {
+            editedFields.add(field.dataset.field);
+            updateProgress();
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        formFields.forEach(field => {
+            if(!field.contains(e.target)) field.classList.remove('active');
+        });
+    });
+
+    const form = document.getElementById('studentForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop immediate submission
+
+        // Show loader with new message
+        submitBtn.classList.add('loading');
+        submitBtn.innerHTML = `<span class="spinner"></span> Updating records… please wait`;
+        submitBtn.disabled = true;
+
+        // Delay actual submission (5 seconds for demo)
+        setTimeout(() => {
+            form.submit();
+        }, 5000);
+    });
+});
+</script>
+
+
+</body>
+</html>
