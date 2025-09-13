@@ -272,6 +272,7 @@
             overflow: hidden;
             padding: 0 24px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            
         }
 
         .field-card.active .field-body {
@@ -283,19 +284,20 @@
         .field-input {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid #0c3382;
             border-radius: 12px;
             font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
-            background: #fafafa;
+            
+     
         }
 
         .field-input:focus {
             outline: none;
             border-color: #4f46e5;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-            background: white;
+    
         }
 
         .field-input::placeholder {
@@ -458,7 +460,7 @@
                                 </div>
                                 <i class="fas fa-chevron-down expand-icon"></i>
                             </div>
-                        </div>
+                        </div><br>
                         <div class="field-body">
                             {% if 'date' in headers[i].lower() or 'birth' in headers[i].lower() or 'dob' in headers[i].lower() %}
                                 <div class="calendar-wrapper">
