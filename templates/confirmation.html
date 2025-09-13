@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Update Success</title>
+    <title>{{ student[1].split(' ')[0]|title }} Success</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='confirm.png') }}" type="image/png">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9VZP1RZ8G4"></script>
@@ -13,10 +14,49 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-9VZP1RZ8G4');
     </script>
-  
+
+<style>
+    @keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 1s ease forwards;
+}
+
+.btn-back.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.spinner-back {
+    border: 3px solid #f3f3f3; /* Light gray */
+    border-top: 3px solid #10b981; /* Green */
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+</style>
 </head>
 <body>
     <div class="confetti"></div>
@@ -32,23 +72,29 @@
     <div class="success-container animate-fade-in-up">
         <div class="success-card">
             <div class="success-icon"></div>
-            <h1 class="success-title">Success!</h1>
+
+            <h1 class="success-title text-4xl font-bold text-green-600 animate-fade-in-up">
+                🎉 {{ student[1].split(' ')[0]|title }} Data Updated Successfully!
+            </h1>
+
+
             <p class="success-message">
-                Student data has been updated successfully. All changes have been saved to the system.
+                <b><i><u>{{ student[1].split(' ')[0]|title }}</u></i></b> information was updated successfully. All records are now up to date.
             </p>
-            <a href="/" class="btn-back">
+
+
+            <a href="/" class="btn-back" id="backBtn">
                 Return to Search
             </a>
         </div>
     </div>
 
     <script>
-        // Add some interactive effects
         document.addEventListener('DOMContentLoaded', function() {
             const card = document.querySelector('.success-card');
             const icon = document.querySelector('.success-icon');
+            const backBtn = document.getElementById('backBtn');
             
-            // Add subtle animation to the card
             setTimeout(() => {
                 card.style.transform = 'scale(1.02)';
                 setTimeout(() => {
@@ -56,13 +102,21 @@
                 }, 200);
             }, 500);
             
-            // Add hover effect to the icon
             icon.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.1) rotate(5deg)';
             });
             
             icon.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1) rotate(0deg)';
+            });
+
+            backBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                backBtn.classList.add('loading');
+                backBtn.innerHTML = `<span class="spinner-back"></span> Redirecting...`;
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 2000); // Adjust delay if needed
             });
         });
     </script>

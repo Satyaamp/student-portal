@@ -8,6 +8,10 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='profile.png') }}" type="image/png">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9VZP1RZ8G4"></script>
@@ -157,7 +161,10 @@
             border-radius: 4px;
             transition: width 0.3s ease;
         }
-      
+
+
+
+            
     </style>
 </head>
 <body>
@@ -165,8 +172,12 @@
 
 <div class="container">
 <h1 id="studentName" class="text-3xl font-bold mb-2 text-blue-600">
-     <i class="fa-solid fa-user"></i> {{ student[1].split(' ')[0]|title }}'s Info
+    <i class="fa-solid fa-user"></i> 
+    <span class="typewriter">
+        {{ student[1].split(' ')[0]|title }}'s Info
+    </span>
 </h1>
+
 
 
     <div class="progress-bar">
@@ -191,7 +202,7 @@
         {% for i in range(headers|length) %}
             <div class="form-field" data-field="{{ cleaned_headers[i] }}">
                 <div class="field-header">
-                    <i class="fa-solid {{ icons[i] }} text-gray-500 mr-2"></i> <!-- Different icon per field -->
+                    <i class="fa-solid {{ icons[i] }} text-gray-500 mr-2"></i> 
                     <span>{{ headers[i] }}</span>
                     <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
