@@ -86,23 +86,23 @@ The `students.xlsx` file should follow this structure:
 ## Contributors
 
 <table align="center">
-  <tr>
+ <tr>
     <td align="center">
-      <img src="https://github.com/sayout-de003.png" width="100"><br>
-      <strong>Sayantan De</strong><br>
-      <a href="https://github.com/sayout-de003">@sayout-de003</a>
+      <img src="https://github.com/mohit-kumar-saini.png" width="100"><br>
+      <strong>Mohit Kumar Saini</strong><br>
+      <a href="https://github.com/mohit-kumar-saini">@mohit-kumar-saini</a>
     </td>
     <td align="center">
-      <img src="https://github.com/himasnhu018.png" width="100"><br>
-      <strong>Himanshu Kumar Gupta</strong><br>
-      <a href="https://github.com/himasnhu018">@himasnhu018</a>
+      <img src="https://github.com/rajakRahul1283.png" width="100"><br>
+      <strong>Rahul Kumar Rajak</strong><br>
+      <a href="https://github.com/rajakRahul1283">@rajakRahul1283</a>
     </td>
     <td align="center">
       <img src="https://github.com/Satyaamp.png" width="100"><br>
       <strong>Satyam Kumar</strong><br>
       <a href="https://github.com/Satyaamp">@Satyaamp</a>
     </td>
-  </tr>
+</tr>
 </table>
 
 ## Notes
