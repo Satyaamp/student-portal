@@ -8,19 +8,26 @@ The Student Portal is a simple yet effective web application that allows users t
 
 ## Features
 
-- **Student Search**: Search for students using their enrollment number
-- **View Details**: Display comprehensive student information including personal details, course information, and fee status
+- **Student Search**: Search for students using their enrollment number with real-time validation
+- **Modern Student Profile Display**: Beautiful glassmorphism design with animated sections showing comprehensive student information
+- **View Details**: Display student information in organized sections:
+  - Basic Information (Personal details, contact info)
+  - Academic Information (Department, batch, CGPA, attendance)
+  - Administrative Details (Admission info, fee status, remarks)
 - **Update Information**: Modify student details with a user-friendly form interface
-- **Responsive Design**: Modern, mobile-friendly UI with smooth animations
-- **Real-time Validation**: Client-side validation for enrollment numbers
-- **Confirmation System**: Feedback after successful updates
+- **Responsive Design**: Fully responsive UI that works on all devices with smooth animations
+- **Modern UI/UX**: Glassmorphism effects, gradient backgrounds, hover animations, and micro-interactions
+- **Confirmation System**: Visual feedback with confetti animations after successful updates
+- **Typography**: Clean, modern typography using Inter font family
+- **Icons**: Font Awesome icons for better visual hierarchy
 
 ## Tech Stack
 
 - **Backend**: Python Flask
 - **Frontend**: HTML5, CSS3, JavaScript
-- **Data Storage**: Excel (openpyxl)
+- **Data Storage**: Excel (openpyxl) or Google Sheets API
 - **Styling**: Custom CSS with modern design principles
+- **Environment**: python-dotenv for configuration management
 
 ## Installation
 
@@ -31,16 +38,24 @@ The Student Portal is a simple yet effective web application that allows users t
    pip install -r requirements.txt
    ```
 
-3. **Ensure you have the data file**:
-   - The application requires `students.xlsx` in the root directory
-   - The Excel file should have the following columns: Enrollment, Name, DOB, Address, Contact, Course, Year, Email, Fee Status, Remarks
+3. **Set up data storage**:
+   - **Option A: Excel File**: Ensure you have `students.xlsx` in the root directory with all required columns as shown in the Data Format section below
+   - **Option B: Google Sheets**: Follow the setup guide in `GOOGLE_SHEETS_SETUP.md` for cloud-based data storage
 
-4. **Run the application**:
+4. **Configure environment variables** (if using Google Sheets):
+   Create a `.env` file in your project root:
+   ```env
+   GOOGLE_SHEETS_CREDENTIALS_PATH=credentials.json
+   GOOGLE_SHEETS_SPREADSHEET_ID=your_sheet_id_here
+   ```
+   **Note**: Keep `credentials.json` secure and add it to `.gitignore`
+
+5. **Run the application**:
    ```bash
    python app.py
    ```
 
-5. **Access the application**:
+6. **Access the application**:
    - Open your browser and navigate to `http://localhost:5000`
 
 ## Usage
@@ -52,22 +67,39 @@ The Student Portal is a simple yet effective web application that allows users t
 2. **View Student Information**:
    - The application displays all student details in a readable format
 
-3. **Update Student Information**:
-   - Modify any fields as needed
-   - Click "Update" to save changes
-   - Receive confirmation of successful update
+
 
 ## Project Structure
 
-<img src="static\project_str.jpg" width="100"><br>
+```
+student-portal/
+│
+├── app.py                         
+├── requirements.txt                               
+├── README.md                    
+├── .env
+│
+├── static/                
+│   ├── css/
+│   │   ├── style.css          
+│   │   └── student_info_custom.css 
+│   ├── js/
+│   │   └── script.js              
+│   
+│
+└── templates/
+    ├── index.html        
+    ├── student_info.html         
+    └── confirmation.html          
+```
 
 ## Data Format
 
-The `students.xlsx` file should follow this structure:
+The `spreadsheet` file should follow this structure with all required columns:
 
-| Enrollment | Name | DOB | Address | Contact | Course | Year | Email | Fee Status | Remarks |
-|------------|------|-----|---------|---------|--------|------|-------|------------|---------|
-| 2203051240090 | Satyam Kumar | 2003-01-01 | Maurya Vihar Colony, Khagaul, Bihar 801105 | 7488253867 | B.Tech CSE AI | 4 | 2203051240060@paruluniversity.ac.in | Paid | Good student |
+| Enrollment | Name | Gender | DOB | Contact | Email | Address | Branch | Department | Batch | Division | Roll Number | Year | CGPA | Attendance | Admission Year | Admission Category | Fee Status | Remarks |
+|------------|------|--------|-----|---------|-------|---------|--------|------------|-------|----------|-------------|------|------|------------|---------------|-------------------|------------|---------|
+| 2203051240090 | Satyam Kumar | Male | 2003-01-01 | 7488253867 | 2203051240060@paruluniversity.ac.in | Maurya Vihar Colony, Khagaul, Bihar 801105 | CSE AI | Computer Science | 2022 | A | 12345 | 4 | 8.5 | 85 | 2022 | General | Paid | Good student |
 
 ## Contributors
 
@@ -93,7 +125,6 @@ The `students.xlsx` file should follow this structure:
 
 ## Notes
 
-- Ensure the Excel file is not open in another application when updating records
 - The application runs in debug mode by default for development
-- All changes are saved directly to the Excel file
+- All changes are saved directly to the SpreadSheet file
 
