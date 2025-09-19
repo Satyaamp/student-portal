@@ -1,38 +1,79 @@
-from flask import Flask, render_template, request, redirect
-from openpyxl import load_workbook
+from flask import Flask, render_template, request, redirect, jsonify
+import gspread
+from google.oauth2.service_account import Credentials
+import os
+from dotenv import load_dotenv
+from datetime import datetime
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
 EXCEL_FILE = 'students.xlsx'
 
-# ----------------- Get Student -----------------
-def get_student(enroll_no):
-    wb = load_workbook(EXCEL_FILE)
-    sheet = wb.active
-    enroll_no = str(enroll_no).strip()  # ensure string
-    for row in sheet.iter_rows(min_row=2, values_only=False):
-        if str(row[0].value).strip() == enroll_no:
-            return [cell.value for cell in row]
-    return None
+# Updated headers to include new columns
+HEADERS = ['Enrollment No. ', 'Name', 'Gender', 'DOB', 'Contact', 'Email', 'Address', 'Course', 'Department', 'Batch', 'Section', 'Roll Number', 'Year', 'CGPA', '  Attendance  ', '  Admission Year  ', '  Admission Category  ', 'Fee Status', 'Remarks']
 
-# ----------------- Update Student -----------------
+# Google Sheets setup
+def get_google_sheets_client():
+    creds_path = os.getenv('GOOGLE_SHEETS_CREDENTIALS_PATH', 'credentials.json')
+    spreadsheet_id = os.getenv('GOOGLE_SHEETS_SPREADSHEET_ID')
+
+    if not spreadsheet_id:
+        raise ValueError("GOOGLE_SHEETS_SPREADSHEET_ID environment variable not set")
+
+    creds = Credentials.from_service_account_file(creds_path, scopes=[
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/drive'
+    ])
+
+    client = gspread.authorize(creds)
+    return client.open_by_key(spreadsheet_id).sheet1
+
+def get_student(enroll_no):
+    try:
+        sheet = get_google_sheets_client()
+        records = sheet.get_all_records()
+        enroll_no = str(enroll_no).strip()
+
+        for record in records:
+            if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
+                student = [record.get(header, '') for header in HEADERS]
+
+                # Format DOB (mm/dd/yyyy -> dd/mm/yyyy)
+                if student[3]:
+                    try:
+                        from datetime import datetime
+                        dt = datetime.strptime(student[3], "%m/%d/%Y")
+                        student[3] = dt.strftime("%d/%m/%Y")
+                    except:
+                        pass
+
+                return student
+        return None
+    except Exception as e:
+        print(f"Error accessing Google Sheets: {e}")
+        return None
+
+
 def update_student(enroll_no, updated_data):
     try:
-        wb = load_workbook(EXCEL_FILE)
-        sheet = wb.active
+        sheet = get_google_sheets_client()
+        records = sheet.get_all_records()
         enroll_no = str(enroll_no).strip()
-        for row in sheet.iter_rows(min_row=2):
-            if str(row[0].value).strip() == enroll_no:
-                for i in range(len(updated_data)):
-                    row[i].value = updated_data[i]
-                wb.save(EXCEL_FILE)
-                return True
-    except PermissionError:
-        print("ERROR: Cannot save the Excel file. Make sure it is closed in Excel.")
-        return False
-    return False
 
-# ----------------- Home / Search -----------------
+        for i, record in enumerate(records, start=2):  # Start from row 2 (after headers)
+            if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
+                # Update the row with new data
+                sheet.update(f'A{i}:S{i}', [updated_data])
+                return True
+        return False
+    except Exception as e:
+        print(f"Error updating Google Sheets: {e}")
+        return False
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -42,34 +83,65 @@ def index():
 
         student = get_student(enroll_no)
         if student:
-            headers = ['Enrollment', 'Name', 'DOB', 'Address', 'Contact', 'Course', 'Year', 'Email', 'Fee Status', 'Remarks']
-            cleaned_headers = [h.lower().replace(' ', '_') for h in headers]
-            return render_template('student_info.html', student=student, headers=headers, cleaned_headers=cleaned_headers)
+            cleaned_headers = [h.lower().replace(' ', '_') for h in HEADERS]
+            return render_template('student_info.html', student=student, headers=HEADERS, cleaned_headers=cleaned_headers)
         else:
             return "Enrollment number not found"
     return render_template('index.html')
 
-# ----------------- Update Student -----------------
+
+@app.route('/api/student/<enroll_no>')
+def get_student_api(enroll_no):
+    student = get_student(enroll_no)
+    if student:
+        short_info = {
+            'enrollment': student[0],
+            'name': student[1],
+            'course': student[7],
+            'year': student[12],
+            'mail': student[5]
+        }
+        return jsonify(short_info)
+    else:
+        return jsonify({'error': 'Student not found'}), 404
+
+@app.route('/student/<enroll_no>')
+def student_info(enroll_no):
+    student = get_student(enroll_no)
+    if student:
+        cleaned_headers = [h.lower().replace(' ', '_') for h in HEADERS]
+        return render_template('student_info.html', student=student, headers=HEADERS, cleaned_headers=cleaned_headers)
+    else:
+        return "Student not found", 404
+
 @app.route('/update', methods=['POST'])
 def update():
     updated_data = [
-        request.form['enrollment'],
-        request.form['name'],
-        request.form['dob'],
-        request.form['address'],
-        request.form['contact'],
-        request.form['course'],
-        request.form['year'],
-        request.form['email'],
-        request.form['fee_status'],
-        request.form['remarks']
+        request.form.get('enrollment'),
+        request.form.get('name'),
+        request.form.get('gender'),
+        request.form.get('dob'),
+        request.form.get('contact'),
+        request.form.get('email'),
+        request.form.get('address'),
+        request.form.get('course'),
+        request.form.get('department'),
+        request.form.get('batch'),
+        request.form.get('section'),
+        request.form.get('roll_number'),
+        request.form.get('year'),
+        request.form.get('cgpa'),
+        request.form.get('attendance'),
+        request.form.get('admission_year'),
+        request.form.get('admission_category'),
+        request.form.get('fee_status'),
+        request.form.get('remarks')
     ]
     success = update_student(updated_data[0], updated_data)
     if success:
         return render_template('confirmation.html', student=updated_data)
     else:
-        return "Error updating student. Ensure Excel file is closed.", 500
+        return "Error updating student. Ensure Google Sheets is accessible.", 500
 
-# ----------------- Run Flask -----------------
 if __name__ == '__main__':
     app.run(debug=True)

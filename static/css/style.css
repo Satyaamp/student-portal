@@ -578,3 +578,80 @@ body::before {
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease;
 }
+
+/* Short Student Info Styles */
+.student-short-info {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideInFromBottom 0.5s ease-out;
+}
+
+.short-info-title {
+  color: #0369a1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.short-info-content p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #0c4a6e;
+}
+
+.clickable-enrollment {
+  color: #0ea5e9 !important;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.clickable-enrollment:hover {
+  color: #0284c7 !important;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.student-short-info {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: #f0f9ff;
+  border: 1px solid #0ea5e9;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgb(14 165 233 / 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+.short-info-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #0369a1;
+  margin-bottom: 0.75rem;
+}
+
+.short-info-content p {
+  margin: 0.25rem 0;
+  font-size: 1rem;
+  color: #0c4a6e;
+}
+
+.clickable-enrollment {
+  cursor: pointer;
+  color: #0ea5e9;
+  text-decoration: underline;
+}

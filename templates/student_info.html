@@ -1,171 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{student[1]|title }} ({{ student[0] }})</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ student[1]|title }} ({{ student[0] }})</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-    
-    <link rel="shortcut icon" href="{{ url_for('static', filename='profile.png') }}" type="image/png">
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9VZP1RZ8G4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-9VZP1RZ8G4');
-    </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/student_info_custom.css') }}">
 </head>
-<body class="bg-gradient-to-br from-indigo-600 to-purple-700 font-['Inter'] antialiased p-4 sm:p-6 md:p-8">
+<body class="bg-gradient-to-br from-indigo-600 via-purple-700 to-pink-600 font-['Inter'] min-h-screen flex flex-col items-center justify-start p-6">
 
-    <div class="max-w-7xl mx-auto bg-slate-50/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/20">
-        <div class="bg-gradient-to-br from-indigo-600 to-violet-600 p-8 sm:p-12 text-center text-white">
-            <h1 class="text-3xl sm:text-4xl font-bold mb-2 flex items-center justify-center gap-3">
-                <i class="fa-solid fa-user-pen"></i> 
-                <span>{{student[1].split(' ')[0]|title }}'s Info</span>
-            </h1>
-            <p class="text-indigo-200 text-lg">Update and manage student information</p>
-        </div>
+  <!-- HEADER -->
+  <div class="student-header-box animate-fadeIn">
+    <h1><i class="fa-solid fa-user-graduate mr-2"></i>{{ student[1] }}</h1>
+    <p><strong>Branch:</strong> {{ student[7] }}</p>
+    <p><strong>Division:</strong> {{ student[10] }}</p>
+  </div>
 
-        <div class="p-6 sm:p-8 md:p-10">
-            <div class="mb-8">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-semibold text-slate-600">Completion Progress</span>
-                    <span class="text-sm font-bold text-indigo-600" id="progressText">0% Complete</span>
-                </div>
-                <div class="w-full bg-slate-200 rounded-full h-2.5">
-                    <div id="progressFill" class="bg-gradient-to-r from-indigo-500 to-violet-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <form method="POST" action="/update" id="studentForm">
-                <div class="columns-1 lg:columns-2 gap-6"></div>
-                    
-                    {% set icons = ["fa-id-card", "fa-user", "fa-calendar", "fa-location-dot", "fa-phone", "fa-book", "fa-graduation-cap", "fa-envelope", "fa-money-bill", "fa-note-sticky"] %}
-                    
-                    {% for i in range(headers|length) %}
-                        <div class="field-card bg-white border-2 border-slate-100 rounded-2xl transition-all duration-300 group relative" data-field="{{ cleaned_headers[i] }}">
-                            <div class="field-header flex items-center justify-between p-5 cursor-pointer">
-                                <div class="flex items-center gap-4">
-                                    <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-violet-500 text-white rounded-lg">
-                                        <i class="fa-solid {{ icons[i] }}"></i>
-                                    </div>
-                                    <span class="font-bold text-slate-800 text-lg">{{ headers[i] }}</span>
-                                </div>
-                                <i class="fas fa-chevron-down text-slate-400 group-[.active]:rotate-180 transition-transform duration-300"></i>
-                            </div>
-                            <div class="field-body max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out group-[.active]:max-h-48 group-[.active]:opacity-100">
-                                <div class="px-6 pb-6">
-                                    {# Dynamically set input type based on header name #}
-                                    {% if 'date' in headers[i].lower() or 'birth' in headers[i].lower() or 'dob' in headers[i].lower() %}
-                                        <input type="date" name="{{ cleaned_headers[i] }}" value="{{ student[i] }}" class="field-input w-full p-4 border-2 border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10" required />
-                                    {% elif 'email' in headers[i].lower() %}
-                                        <input type="email" name="{{ cleaned_headers[i] }}" value="{{ student[i] }}" class="field-input w-full p-4 border-2 border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10" placeholder="Enter {{ headers[i] }}" required />
-                                    {% elif 'phone' in headers[i].lower() %}
-                                        <input type="tel" name="{{ cleaned_headers[i] }}" value="{{ student[i] }}" class="field-input w-full p-4 border-2 border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10" placeholder="Enter {{ headers[i] }}" required />
-                                    {% else %}
-                                        <input type="text" name="{{ cleaned_headers[i] }}" value="{{ student[i] }}" class="field-input w-full p-4 border-2 border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10" placeholder="Enter {{ headers[i] }}" required />
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class="mt-10 pt-8 text-center border-t border-slate-200">
-                    <button type="submit" id="submitBtn" class="bg-gradient-to-br from-indigo-600 to-violet-600 text-white font-bold text-lg py-4 px-12 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed">
-                        <span class="flex items-center justify-center">
-                            <i class="fa-solid fa-cloud-arrow-up mr-3"></i>
-                            <span>Update Data</span>
-                        </span>
-                    </button>
-                </div>
-            </form>
-        </div>
+  <!-- DETAILS -->
+  <div class="student-details-container">
+    <div class="details-section blue-glass animate-slideUp">
+      <h3><i class="fa-solid fa-id-card-clip mr-2"></i>Basic Information</h3>
+      <p><strong>Enrollment:</strong> {{ student[0] }}</p>
+      <p><strong>Name:</strong> {{ student[1] }}</p>
+      <p><strong>Gender:</strong> {{ student[2] }}</p>
+      <p><strong>DOB:</strong> {{ student[3] }}</p>
+      <p><strong>Contact:</strong> {{ student[4] }}</p>
+      <p><strong>Email:</strong> {{ student[5] }}</p>
+      <p><strong>Address:</strong> {{ student[6] }}</p>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fieldCards = document.querySelectorAll('.field-card');
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
-            const submitBtn = document.getElementById('submitBtn');
-            const form = document.getElementById('studentForm');
+    <div class="details-section purple-glass animate-slideUp">
+      <h3><i class="fa-solid fa-graduation-cap mr-2"></i>Academic Information</h3>
+      <p><strong>Department:</strong> {{ student[8] }}</p>
+      <p><strong>Batch:</strong> {{ student[9] }}</p>
+      <p><strong>Roll Number:</strong> {{ student[11] }}</p>
+      <p><strong>Year:</strong> {{ student[12] }}</p>
+      <p><strong>CGPA:</strong> {{ student[13] }}</p>
+      <p><strong>Attendance:</strong> {{ student[14] }}%</p>
+    </div>
 
-            if (!form) return; // Exit if form not found
+    <div class="details-section pink-glass animate-slideUp">
+      <h3><i class="fa-solid fa-building-columns mr-2"></i>Administrative Details</h3>
+      <p><strong>Admission Year:</strong> {{ student[15] }}</p>
+      <p><strong>Admission Category:</strong> {{ student[16] }}</p>
+      <p><strong>Fee Status:</strong> {{ student[17] }}</p>
+      <p><strong>Remarks:</strong> {{ student[18] }}</p>
+    </div>
+  </div>
 
-            const editedFields = new Set();
-            const totalFields = fieldCards.length;
-
-            function updateProgress() {
-                const percent = totalFields > 0 ? Math.round((editedFields.size / totalFields) * 100) : 0;
-                progressFill.style.width = percent + '%';
-                progressText.textContent = percent + '% Complete';
-
-                if (percent === 100 && !progressText.querySelector('.completion-badge')) {
-                    progressText.innerHTML = `<span class="inline-flex items-center gap-2 bg-green-100 text-green-700 font-bold text-xs px-3 py-1 rounded-full">
-                        <i class="fas fa-check-circle"></i> All Fields Edited!
-                    </span>`;
-                }
-            }
-
-            fieldCards.forEach(card => {
-                const header = card.querySelector('.field-header');
-                const input = card.querySelector('.field-input');
-                if (!header || !input) return;
-
-                const originalValue = input.value;
-
-                // Accordion functionality
-                header.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const isActive = card.classList.contains('active');
-
-                    // Close all other cards before opening the new one
-                    fieldCards.forEach(otherCard => otherCard.classList.remove('active'));
-
-                    if (!isActive) {
-                        card.classList.add('active');
-                        setTimeout(() => input.focus(), 300); // Focus after transition
-                    }
-                });
-
-                // Track changes to input fields
-                input.addEventListener('input', () => {
-                    if (input.value !== originalValue) {
-                        card.classList.add('edited');
-                        editedFields.add(card.dataset.field);
-                    } else {
-                        card.classList.remove('edited');
-                        editedFields.delete(card.dataset.field);
-                    }
-                    updateProgress();
-                });
-            });
-
-            // Form submission handler
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                submitBtn.disabled = true;
-                const buttonContent = submitBtn.querySelector('span');
-                if (buttonContent) {
-                    buttonContent.innerHTML = `<span class="spinner"></span> <span>Updating...</span>`;
-                }
-
-                // Simulate network delay before actual submission
-                setTimeout(() => {
-                    form.submit();
-                }, 2000); 
-            });
-        });
-    </script>
+  <!-- BACK BUTTON -->
+  <div class="back-button-container animate-fadeIn">
+    <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left mr-2"></i>Back to Search</a>
+  </div>
 </body>
 </html>

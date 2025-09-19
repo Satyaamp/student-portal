@@ -6,6 +6,7 @@
     <title>Student Data</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/script.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='seo.png') }}" type="image/png">
 
     <!-- Google tag (gtag.js) -->
@@ -33,28 +34,36 @@
 
             <form method="POST" class="search-form" id="searchForm">
                 <div class="form-group">
-                    <label for="enroll_no" class="form-label">
+                    <!-- <label for="enroll_no" class="form-label">
                         Enrollment Number <span style="color: red;">*</span>
-                    </label>
-                    <input 
+                    </label> -->
+                    <input
                         name="enroll_no"
                         id="enroll_no"
                         type="number"
-                        placeholder="2203051240090"
+                        placeholder="Enrollment Number"
                         class="search-input"
                         required
                         autocomplete="on"
                     />
                 </div>
-
-        
                 <button type="submit" class="btn-search" id="searchBtn">
                     <span class="search-icon">🔍</span>
                     Search Student
                 </button>
             </form>
 
-             
+            <!-- Short Student Info Display -->
+            <div id="student-short-info" class="student-short-info" style="display: none;">
+                <h3 class="short-info-title">Student Found:</h3>
+                <div class="short-info-content">
+                    <p><strong>Enrollment:</strong> <span id="short-enrollment" class="clickable-enrollment"></span></p>
+                    <p><strong>Name:</strong> <span id="short-name"></span></p>
+                    <p><strong>Course:</strong> <span id="short-course"></span></p>
+                    <p><strong>Year:</strong> <span id="short-year"></span></p>
+                </div>
+            </div>
+
             <div class="developer-section">
                 <p class="developer-text">Developed by:</p>
                 <div class="developer-profiles">
@@ -88,7 +97,7 @@
         const searchBtn = document.getElementById('searchBtn');
         const enrollInput = document.getElementById('enroll_no');
         
-        // Real-time validation
+   
         enrollInput.addEventListener('input', function(e) {
             const value = e.target.value.trim();
             if (value.length > 0) {
@@ -99,26 +108,14 @@
         });
 
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default submission
-
-            const enrollValue = enrollInput.value.trim();
-            if (enrollValue.length < 3) {
-                alert('Please enter a valid enrollment number (minimum 3 characters)');
-                enrollInput.focus();
-                return;
-            }
-
-            // Show loading state
-            searchBtn.classList.add('loading');
-            searchBtn.innerHTML = `<span class="search-icon spinner"></span> Looking up records… please wait`;
+            e.preventDefault();
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
             searchBtn.disabled = true;
-            searchBtn.classList.remove('pulse-animation');
-
-            // Simulate delay of 5 seconds
+            searchBtn.innerHTML = '<span class="search-icon">⏳</span> Searching...';
             setTimeout(() => {
-                form.submit(); // Submit form after delay
-            }, 3000); // 5000ms = 5 seconds
-        });
+
+        // Submit handler moved to script.js
 
         // Focus animation
         enrollInput.addEventListener('focus', function() {
