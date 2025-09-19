@@ -2,34 +2,55 @@ from flask import Flask, render_template, request, redirect, jsonify
 import gspread
 from google.oauth2.service_account import Credentials
 import os
+import json
 from dotenv import load_dotenv
 from datetime import datetime
 
-# Load environment variables
+# Load environment variables (for local .env file)
 load_dotenv()
 
 app = Flask(__name__)
 
-EXCEL_FILE = 'students.xlsx'
+# Headers for students
+HEADERS = [
+    'Enrollment No. ', 'Name', 'Gender', 'DOB', 'Contact', 'Email', 'Address',
+    'Course', 'Department', 'Batch', 'Section', 'Roll Number', 'Year', 'CGPA',
+    '  Attendance  ', '  Admission Year  ', '  Admission Category  ',
+    'Fee Status', 'Remarks'
+]
 
-# Updated headers to include new columns
-HEADERS = ['Enrollment No. ', 'Name', 'Gender', 'DOB', 'Contact', 'Email', 'Address', 'Course', 'Department', 'Batch', 'Section', 'Roll Number', 'Year', 'CGPA', '  Attendance  ', '  Admission Year  ', '  Admission Category  ', 'Fee Status', 'Remarks']
 
-# Google Sheets setup
+# Google Sheets client setup
 def get_google_sheets_client():
-    creds_path = os.getenv('GOOGLE_SHEETS_CREDENTIALS_PATH', 'credentials.json')
-    spreadsheet_id = os.getenv('GOOGLE_SHEETS_SPREADSHEET_ID')
+    spreadsheet_id = os.environ.get("GOOGLE_SHEETS_SPREADSHEET_ID")
+    creds_json = os.environ.get("GOOGLE_SHEETS_CREDENTIALS_JSON")
 
-    if not spreadsheet_id:
-        raise ValueError("GOOGLE_SHEETS_SPREADSHEET_ID environment variable not set")
+    if spreadsheet_id is None:
+        raise ValueError("GOOGLE_SHEETS_SPREADSHEET_ID not set")
 
-    creds = Credentials.from_service_account_file(creds_path, scopes=[
-        'https://www.googleapis.com/auth/spreadsheets',
-        'https://www.googleapis.com/auth/drive'
-    ])
+    if creds_json:
+        # Running on Render (env variable contains JSON)
+        creds_dict = json.loads(creds_json)
+        creds = Credentials.from_service_account_info(
+            creds_dict,
+            scopes=[
+                'https://www.googleapis.com/auth/spreadsheets',
+                'https://www.googleapis.com/auth/drive'
+            ]
+        )
+    else:
+        # Running locally (use credentials.json file)
+        creds = Credentials.from_service_account_file(
+            "credentials.json",
+            scopes=[
+                'https://www.googleapis.com/auth/spreadsheets',
+                'https://www.googleapis.com/auth/drive'
+            ]
+        )
 
     client = gspread.authorize(creds)
     return client.open_by_key(spreadsheet_id).sheet1
+
 
 def get_student(enroll_no):
     try:
@@ -41,15 +62,13 @@ def get_student(enroll_no):
             if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
                 student = [record.get(header, '') for header in HEADERS]
 
-                # Format DOB (mm/dd/yyyy -> dd/mm/yyyy)
+                # Format DOB mm/dd/yyyy -> dd/mm/yyyy
                 if student[3]:
                     try:
-                        from datetime import datetime
                         dt = datetime.strptime(student[3], "%m/%d/%Y")
                         student[3] = dt.strftime("%d/%m/%Y")
                     except:
                         pass
-
                 return student
         return None
     except Exception as e:
@@ -63,9 +82,8 @@ def update_student(enroll_no, updated_data):
         records = sheet.get_all_records()
         enroll_no = str(enroll_no).strip()
 
-        for i, record in enumerate(records, start=2):  # Start from row 2 (after headers)
+        for i, record in enumerate(records, start=2):  # Row 2 onwards
             if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
-                # Update the row with new data
                 sheet.update(f'A{i}:S{i}', [updated_data])
                 return True
         return False
@@ -84,7 +102,12 @@ def index():
         student = get_student(enroll_no)
         if student:
             cleaned_headers = [h.lower().replace(' ', '_') for h in HEADERS]
-            return render_template('student_info.html', student=student, headers=HEADERS, cleaned_headers=cleaned_headers)
+            return render_template(
+                'student_info.html',
+                student=student,
+                headers=HEADERS,
+                cleaned_headers=cleaned_headers
+            )
         else:
             return "Enrollment number not found"
     return render_template('index.html')
@@ -105,14 +128,21 @@ def get_student_api(enroll_no):
     else:
         return jsonify({'error': 'Student not found'}), 404
 
+
 @app.route('/student/<enroll_no>')
 def student_info(enroll_no):
     student = get_student(enroll_no)
     if student:
         cleaned_headers = [h.lower().replace(' ', '_') for h in HEADERS]
-        return render_template('student_info.html', student=student, headers=HEADERS, cleaned_headers=cleaned_headers)
+        return render_template(
+            'student_info.html',
+            student=student,
+            headers=HEADERS,
+            cleaned_headers=cleaned_headers
+        )
     else:
         return "Student not found", 404
+
 
 @app.route('/update', methods=['POST'])
 def update():
@@ -142,6 +172,7 @@ def update():
         return render_template('confirmation.html', student=updated_data)
     else:
         return "Error updating student. Ensure Google Sheets is accessible.", 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -48,7 +48,23 @@ The Student Portal is a simple yet effective web application that allows users t
    GOOGLE_SHEETS_CREDENTIALS_PATH=credentials.json
    GOOGLE_SHEETS_SPREADSHEET_ID=your_sheet_id_here
    ```
-   **Note**: Keep `credentials.json` secure and add it to `.gitignore`
+
+   **For deployment platforms like Render:**
+   Instead of uploading the entire `credentials.json` file, set these environment variables with the JSON content:
+
+   ```env
+   GOOGLE_SHEETS_TYPE=service_account
+   GOOGLE_SHEETS_PROJECT_ID=your-project-id
+   GOOGLE_SHEETS_PRIVATE_KEY_ID=your-private-key-id
+   GOOGLE_SHEETS_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
+   GOOGLE_SHEETS_CLIENT_EMAIL=your-service-account@project.iam.gserviceaccount.com
+   GOOGLE_SHEETS_CLIENT_ID=your-client-id
+   GOOGLE_SHEETS_AUTH_URI=https://accounts.google.com/o/oauth2/auth
+   GOOGLE_SHEETS_TOKEN_URI=https://oauth2.googleapis.com/token
+   GOOGLE_SHEETS_AUTH_PROVIDER_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+   GOOGLE_SHEETS_CLIENT_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40project.iam.gserviceaccount.com
+   ```
+
 
 5. **Run the application**:
    ```bash
