@@ -59,21 +59,7 @@ The Student Portal is a simple yet effective web application that allows users t
 
 ## Project Structure
 
-```
-student-portal/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── students.xlsx          # Student data file
-├── static/
-│   ├── css/
-│   │   └── style.css      # Custom stylesheets
-│   └── js/
-│       └── script.js      # Client-side JavaScript
-└── templates/
-    ├── index.html         # Search page
-    ├── student_info.html  # Student details and update form
-    └── confirmation.html  # Update confirmation page
-```
+<img src="static\project_str.jpg" width="100"><br>
 
 ## Data Format
 
