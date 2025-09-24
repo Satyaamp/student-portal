@@ -49,6 +49,14 @@
       <p><strong>Fee Status:</strong> {{ student[17] }}</p>
       <p><strong>Remarks:</strong> {{ student[18] }}</p>
     </div>
+
+    <div class="details-section green-glass animate-slideUp">
+      <h3><i class="fa-solid fa-calendar-days mr-2"></i>Timetable</h3>
+      <p><strong>Division:</strong> {{ student[10] }}</p>
+      <a href="{% if student[10] == '7B1' %}https://drive.google.com/file/d/1cMq-8bOe-CMvMueXfEhuebOiVM0Xti-4/view?usp=sharing{% elif student[10] == '7B2' %}https://drive.google.com/file/d/1DQF9MIAHMmf0xrvuyarnz_rh1YMI2t-W/view?usp=sharing{% else %}https://drive.google.com/placeholder-default{% endif %}" target="_blank" class="btn-timetable">
+        <i class="fa-solid fa-external-link-alt mr-2"></i>View Timetable
+      </a>
+    </div>
   </div>
 
   <!-- BACK BUTTON -->

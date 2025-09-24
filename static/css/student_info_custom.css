@@ -65,6 +65,7 @@
 .blue-glass { background: rgba(14,165,233,0.25); }
 .purple-glass { background: rgba(168,85,247,0.25); }
 .pink-glass { background: rgba(236,72,153,0.25); }
+.green-glass { background: rgba(34,197,94,0.25); }
 
 /* Back Button */
 .btn-back {
@@ -80,6 +81,25 @@
 }
 .btn-back:hover {
   background: linear-gradient(135deg, #ec4899, #6366f1);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+/* Timetable Button */
+.btn-timetable {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  text-decoration: none;
+  border-radius: 0.8rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  margin-top: 1rem;
+}
+.btn-timetable:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(255,255,255,0.4);
 }

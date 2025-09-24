@@ -6,7 +6,6 @@ import json
 from dotenv import load_dotenv
 from datetime import datetime
 
-# Load environment variables (for local .env file)
 load_dotenv()
 
 app = Flask(__name__)
@@ -76,20 +75,20 @@ def get_student(enroll_no):
         return None
 
 
-def update_student(enroll_no, updated_data):
-    try:
-        sheet = get_google_sheets_client()
-        records = sheet.get_all_records()
-        enroll_no = str(enroll_no).strip()
+# def update_student(enroll_no, updated_data):
+#     try:
+#         sheet = get_google_sheets_client()
+#         records = sheet.get_all_records()
+#         enroll_no = str(enroll_no).strip()
 
-        for i, record in enumerate(records, start=2):  # Row 2 onwards
-            if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
-                sheet.update(f'A{i}:S{i}', [updated_data])
-                return True
-        return False
-    except Exception as e:
-        print(f"Error updating Google Sheets: {e}")
-        return False
+#         for i, record in enumerate(records, start=2):  # Row 2 onwards
+#             if str(record.get('Enrollment No. ', '')).strip() == enroll_no:
+#                 sheet.update(f'A{i}:S{i}', [updated_data])
+#                 return True
+#         return False
+#     except Exception as e:
+#         print(f"Error updating Google Sheets: {e}")
+#         return False
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -144,34 +143,34 @@ def student_info(enroll_no):
         return "Student not found", 404
 
 
-@app.route('/update', methods=['POST'])
-def update():
-    updated_data = [
-        request.form.get('enrollment'),
-        request.form.get('name'),
-        request.form.get('gender'),
-        request.form.get('dob'),
-        request.form.get('contact'),
-        request.form.get('email'),
-        request.form.get('address'),
-        request.form.get('course'),
-        request.form.get('department'),
-        request.form.get('batch'),
-        request.form.get('section'),
-        request.form.get('roll_number'),
-        request.form.get('year'),
-        request.form.get('cgpa'),
-        request.form.get('attendance'),
-        request.form.get('admission_year'),
-        request.form.get('admission_category'),
-        request.form.get('fee_status'),
-        request.form.get('remarks')
-    ]
-    success = update_student(updated_data[0], updated_data)
-    if success:
-        return render_template('confirmation.html', student=updated_data)
-    else:
-        return "Error updating student. Ensure Google Sheets is accessible.", 500
+# @app.route('/update', methods=['POST'])
+# def update():
+#     updated_data = [
+#         request.form.get('enrollment'),
+#         request.form.get('name'),
+#         request.form.get('gender'),
+#         request.form.get('dob'),
+#         request.form.get('contact'),
+#         request.form.get('email'),
+#         request.form.get('address'),
+#         request.form.get('course'),
+#         request.form.get('department'),
+#         request.form.get('batch'),
+#         request.form.get('section'),
+#         request.form.get('roll_number'),
+#         request.form.get('year'),
+#         request.form.get('cgpa'),
+#         request.form.get('attendance'),
+#         request.form.get('admission_year'),
+#         request.form.get('admission_category'),
+#         request.form.get('fee_status'),
+#         request.form.get('remarks')
+#     ]
+#     success = update_student(updated_data[0], updated_data)
+#     if success:
+#         return render_template('confirmation.html', student=updated_data)
+#     else:
+#         return "Error updating student. Ensure Google Sheets is accessible.", 500
 
 
 if __name__ == '__main__':
