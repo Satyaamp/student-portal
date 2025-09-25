@@ -63,11 +63,32 @@
 
     <div class="details-section green-glass animate-slideUp">
       <h3><i class="fa-solid fa-calendar-days mr-2"></i>Timetable</h3>
-      <p><strong>Division:</strong> {{ student[10] }}</p>
+ 
       <a href="{% if student[10] == '7B1' %}https://drive.google.com/file/d/1cMq-8bOe-CMvMueXfEhuebOiVM0Xti-4/view?usp=sharing{% elif student[10] == '7B2' %}https://drive.google.com/file/d/1DQF9MIAHMmf0xrvuyarnz_rh1YMI2t-W/view?usp=sharing{% else %}https://drive.google.com/placeholder-default{% endif %}" target="_blank" class="btn-timetable">
-        <i class="fa-solid fa-external-link-alt mr-2"></i>View Timetable
+        <i class="fa-solid fa-external-link-alt mr-2"></i>View  {{ student[10] }} Timetable
+      </a>
+      <a href="{% if student[10] == '7B1' %}https://drive.google.com/file/d/1xDPJoy6IbXZwXC6Io8x3BbvaYkVi4fcL/view?usp=sharing{% elif student[10] == '7B2' %}https://drive.google.com/file/d/1DQF9MIAHMmf0xrvuyarnz_rh1YMI2t-W/view?usp=sharing{% else %}https://drive.google.com/placeholder-default{% endif %}" target="_blank" class="btn-timetable">
+        <i class="fa-solid fa-external-link-alt mr-2"></i>View Academic Calendar
       </a>
     </div>
+    
+    <div class="details-section green-glass animate-slideUp">
+      <h3><i class="fa-solid fa-file-pen mr-2"></i>Exam Timetable</h3>
+      
+      <!-- Theory Exam Timetable -->
+      <a href="https://drive.google.com/file/d/1lEyUeHKH0VDIb9nVxT8nB0vnNidUxpYj/view" 
+        target="_blank" class="btn-timetable">
+        <i class="fa-solid fa-book-open mr-2"></i>View Theory Timetable
+      </a>
+
+      <!-- Practical Exam Timetable -->
+      <a href="https://drive.google.com/file/d/1AYlNuGbdAp8SfE5Ja34qnlW_f8ic5kzm/view" 
+        target="_blank" class="btn-timetable">
+        <i class="fa-solid fa-flask mr-2"></i>View Practical Timetable
+      </a>
+    </div>
+
+    
   </div>
 
 
