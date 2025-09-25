@@ -1,98 +1,113 @@
-# Student Portal
 
-A web-based application for managing student information using Flask and Excel integration.
+# 🎓 Student Portal
 
-## Description
+A **web-based application** for managing student information with **Flask** and **Google Sheets integration**.
 
-The Student Portal is a simple yet effective web application that allows users to search for student details by enrollment number and update their information. The application uses an Excel file as the data storage backend, making it easy to manage and maintain student records without requiring a full database setup.
+![Student Portal Banner](https://img.shields.io/badge/Student-Portal-blue?style=for-the-badge&logo=python) 
+![Flask](https://img.shields.io/badge/Backend-Flask-orange?style=for-the-badge&logo=flask) 
+![Sheets](https://img.shields.io/badge/Data-Sheets-green?style=for-the-badge&logo=google) 
+![Responsive](https://img.shields.io/badge/Responsive-✅-brightgreen?style=for-the-badge)
 
-## Features
+---
 
-- **Student Search**: Search for students using their enrollment number with real-time validation
-- **Modern Student Profile Display**: Beautiful glassmorphism design with animated sections showing comprehensive student information
-- **View Details**: Display student information in organized sections:
-  - Basic Information (Personal details, contact info)
-  - Academic Information (Department, batch, CGPA, attendance)
-  - Administrative Details (Admission info, fee status, remarks)
-- **Update Information**: Modify student details with a user-friendly form interface
-- **Responsive Design**: Fully responsive UI that works on all devices with smooth animations
-- **Modern UI/UX**: Glassmorphism effects, gradient backgrounds, hover animations, and micro-interactions
-- **Confirmation System**: Visual feedback with confetti animations after successful updates
-- **Typography**: Clean, modern typography using Inter font family
-- **Icons**: Font Awesome icons for better visual hierarchy
+## 🔥 Live Demo
 
-## Tech Stack
+Experience it live here:  
+[🌐 https://studentportal-ob5j.onrender.com/](https://studentportal-ob5j.onrender.com/)
 
-- **Backend**: Python Flask
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Data Storage**: Excel (openpyxl) or Google Sheets API
-- **Styling**: Custom CSS with modern design principles
-- **Environment**: python-dotenv for configuration management
+💡 **Try these sample Enrollment Numbers:**  
+- `2202051240060`  
+- `2203051240078`  
+- `2203051240090`
 
-## Installation
+---
 
-1. **Clone the repository** (if applicable) or ensure you have the project files in your directory.
+## ✨ Features
 
-2. **Install Python dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+* 🔍 **Student Search**: Search by enrollment number with real-time validation
+* 🖼 **Modern Profile Display**: Glassmorphism design with animated sections
+* 📚 **View Details**:
+
+  * **Basic Info**: Personal details, contact info
+  * **Academic Info**: Department, batch, CGPA, attendance
+  * **Administrative Details**: Admission info, fee status, remarks
+* 📱 **Responsive UI**: Works perfectly on desktop, tablet, and mobile
+* 🎨 **Modern Design**: Glassmorphism, gradient backgrounds, hover animations, and micro-interactions
+* 🔤 **Typography**: Clean, modern Inter font family
+* 🖼 **Icons**: Font Awesome for better visual hierarchy
+
+---
+
+## 💻 Tech Stack
+
+| Layer        | Technology                           |
+| ------------ | ------------------------------------ |
+| Backend      | Python Flask                         |
+| Frontend     | HTML5, CSS3, JavaScript              |
+| Styling      | Glassmorphism & Custom CSS           |
+| Data Storage | Excel (openpyxl) / Google Sheets API |
+| Environment  | python-dotenv                        |
+
+---
+
+## 🚀 Installation
+
+1. **Clone the repo**:
+
+```bash
+git clone https://github.com/Satyaamp/student-portal.git
+cd student-portal
+```
+
+2. **Install dependencies**:
+
+```bash
+pip install -r requirements.txt
+```
 
 3. **Set up data storage**:
-   - **Option A: Excel File**: Ensure you have `students.xlsx` in the root directory with all required columns as shown in the Data Format section below
-   - **Option B: Google Sheets**: Follow the setup guide in `GOOGLE_SHEETS_SETUP.md` for cloud-based data storage
+
+* **Option A: Excel** – Add `students.xlsx` to the root directory with required columns.
+- **Option B: Google Sheets** – Follow the setup guide here:  
+[📄 GOOGLE_SHEETS_SETUP.md](https://github.com/Satyaamp/student-portal/blob/main/GOOGLE_SHEETS_SETUP.md)
+
 
 4. **Configure environment variables** (if using Google Sheets):
-   Create a `.env` file in your project root:
-   ```env
-   GOOGLE_SHEETS_CREDENTIALS_PATH=credentials.json
-   GOOGLE_SHEETS_SPREADSHEET_ID=your_sheet_id_here
-   ```
 
-   **For deployment platforms like Render:**
-   Instead of uploading the entire `credentials.json` file, set these environment variables with the JSON content:
+```env
+GOOGLE_SHEETS_CREDENTIALS_PATH=credentials.json
+GOOGLE_SHEETS_SPREADSHEET_ID=your_sheet_id_here
+```
 
-   ```env
-   GOOGLE_SHEETS_TYPE=service_account
-   GOOGLE_SHEETS_PROJECT_ID=your-project-id
-   GOOGLE_SHEETS_PRIVATE_KEY_ID=your-private-key-id
-   GOOGLE_SHEETS_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
-   GOOGLE_SHEETS_CLIENT_EMAIL=your-service-account@project.iam.gserviceaccount.com
-   GOOGLE_SHEETS_CLIENT_ID=your-client-id
-   GOOGLE_SHEETS_AUTH_URI=https://accounts.google.com/o/oauth2/auth
-   GOOGLE_SHEETS_TOKEN_URI=https://oauth2.googleapis.com/token
-   GOOGLE_SHEETS_AUTH_PROVIDER_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
-   GOOGLE_SHEETS_CLIENT_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40project.iam.gserviceaccount.com
-   ```
+5. **Run the app**:
 
+```bash
+python app.py
+```
 
-5. **Run the application**:
-   ```bash
-   python app.py
-   ```
+6. **Open the app** in your browser:
 
-6. **Access the application**:
-   - Open your browser and navigate to `http://localhost:5000`
+```
+http://localhost:5000
+```
 
-## Usage
+---
 
-1. **Search for a Student**:
-   - Enter the enrollment number in the search field
-   - Click "Search Student" to retrieve information
+## 📝 Usage
 
-2. **View Student Information**:
-   - The application displays all student details in a readable format
+1. **Search a Student**: Enter the enrollment number → Click **Search Student**
+2. **View Profile**: Displays full student details in a beautiful layout
 
+---
 
-
-## Project Structure
+## 🗂 Project Structure
 
 ```
 student-portal/
 │
-├── app.py                         
-├── requirements.txt                               
-├── README.md                    
+├── app.py                          
+├── requirements.txt
+├── README.md
 ├── .env
 │
 ├── static/                
@@ -101,46 +116,52 @@ student-portal/
 │   │   └── student_info_custom.css 
 │   ├── js/
 │   │   └── script.js              
-│   
 │
 └── templates/
     ├── index.html        
     ├── student_info.html         
-    └── confirmation.html          
 ```
 
-## Data Format
+---
 
-The `spreadsheet` file should follow this structure with all required columns:
+## 🗃 Data Format
 
-| Enrollment | Name | Gender | DOB | Contact | Email | Address | Branch | Department | Batch | Division | Roll Number | Year | CGPA | Attendance | Admission Year | Admission Category | Fee Status | Remarks |
-|------------|------|--------|-----|---------|-------|---------|--------|------------|-------|----------|-------------|------|------|------------|---------------|-------------------|------------|---------|
-| 2203051240090 | Satyam Kumar | Male | 2003-01-01 | 7488253867 | 2203051240060@paruluniversity.ac.in | Maurya Vihar Colony, Khagaul, Bihar 801105 | CSE AI | Computer Science | 2022 | A | 12345 | 4 | 8.5 | 85 | 2022 | General | Paid | Good student |
+| Enrollment    | Name         | Gender | DOB        | Contact    | Email                                                                             | Address                                    | Branch | Department       | Batch | Division | Roll Number | Year | CGPA | Attendance | Admission Year | Admission Category | Fee Status | Remarks           |
+| ------------- | ------------ | ------ | ---------- | ---------- | --------------------------------------------------------------------------------- | ------------------------------------------ | ------ | ---------------- | ----- | -------- | ----------- | ---- | ---- | ---------- | -------------- | ------------------ | ---------- | ----------------- |
+| 2203051240090 | Satyam Kumar | Male   | 2003-01-01 | 7488253867 | [2203051240060@paruluniversity.ac.in](mailto:2203051240060@paruluniversity.ac.in) | Maurya Vihar Colony, Khagaul, Bihar 801105 | CSE AI | Computer Science | 2022  | A        | 12345       | 4    | 8.5  | 85         | 2022           | General            | Paid       | Excellent student |
 
-## Contributors
+---
+
+## 🌟 Contributors
 
 <table align="center">
- <tr>
-    <td align="center">
-      <img src="https://github.com/mohit-kumar-saini.png" width="100"><br>
-      <strong>Mohit Kumar Saini</strong><br>
-      <a href="https://github.com/mohit-kumar-saini">@mohit-kumar-saini</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/rajakRahul1283.png" width="100"><br>
-      <strong>Rahul Kumar Rajak</strong><br>
-      <a href="https://github.com/rajakRahul1283">@rajakRahul1283</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/Satyaamp.png" width="100"><br>
-      <strong>Satyam Kumar</strong><br>
-      <a href="https://github.com/Satyaamp">@Satyaamp</a>
-    </td>
+<tr>
+<td align="center">
+  <img src="https://github.com/mohit-kumar-saini.png" width="100"><br>
+  <strong>Mohit Kumar Saini</strong><br>
+  <a href="https://github.com/mohit-kumar-saini">@mohit-kumar-saini</a>
+</td>
+<td align="center">
+  <img src="https://github.com/rajakRahul1283.png" width="100"><br>
+  <strong>Rahul Kumar Rajak</strong><br>
+  <a href="https://github.com/rajakRahul1283">@rajakRahul1283</a>
+</td>
+<td align="center">
+  <img src="https://github.com/Satyaamp.png" width="100"><br>
+  <strong>Satyam Kumar</strong><br>
+  <a href="https://github.com/Satyaamp">@Satyaamp</a>
+</td>
 </tr>
 </table>
 
-## Notes
+---
 
-- The application runs in debug mode by default for development
-- All changes are saved directly to the SpreadSheet file
+## ⚠️ Notes
+
+* Runs in **debug mode** by default for development
+* All updates are **read-only** for now (no modification allowed)
+* **Modern UI/UX** ensures smooth animations and responsive design
+
+---
+
 
