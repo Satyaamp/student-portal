@@ -1,3 +1,5 @@
+/*  student_info.css */
+
 /* Header Box */
 .student-header-box {
   background: rgba(255, 255, 255, 0.15);
@@ -31,6 +33,19 @@
   max-width: 1200px;
   margin: 0 auto 2rem;
   padding: 0 1rem;
+}
+
+/* Logo Styling */
+.logo {
+  display: block;
+  margin: 0 auto 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 /* Details Section */

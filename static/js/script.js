@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Show loading overlay
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+
             // Clear previous info
             shortEnrollment.textContent = '';
             shortName.textContent = '';
@@ -62,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(error => {
                     alert(error.message);
+                })
+                .finally(() => {
+                    // Hide loading overlay
+                    overlay.style.display = 'none';
+                    // Reset button
+                    searchBtn.disabled = false;
+                    searchBtn.innerHTML = '<span class="search-icon">🔍</span> Search Student';
                 });
         });
     }

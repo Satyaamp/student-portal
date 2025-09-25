@@ -1,3 +1,6 @@
+/* style.css */
+
+
 :root {
   --primary-50: #f0f9ff;
   --primary-100: #e0f2fe;
@@ -35,12 +38,15 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
   color: var(--neutral-800);
-  background: linear-gradient(135deg, var(--primary-50) 0%, #fef7ee 100%);
-  min-height: 100vh;
+  background-image: url('/static/1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md);
   position: relative;
   overflow: hidden;
 }
@@ -65,20 +71,45 @@ body::before {
   }
 }
 
+.page-wrapper {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
 .search-container {
-  max-width: 500px;
+  max-width: 800px;
   width: 100%;
   position: relative;
   z-index: 1;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
 }
 
 .search-header {
   text-align: center;
-  margin-bottom: var(--spacing-2xl);
+  margin-bottom: var(--spacing-lg);
+}
+
+.logo {
+  display: block;
+  margin: 0 auto var(--spacing-md);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .search-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--neutral-900);
   margin-bottom: var(--spacing-md);
@@ -96,7 +127,7 @@ body::before {
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-lg);
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
 }
@@ -113,9 +144,38 @@ body::before {
 }
 
 .search-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  /* Removed flex styles to use floats like the example */
+}
+
+.search-form input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+.search-form button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background: #0b7dda;
+}
+
+.search-form::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .form-group {
@@ -162,13 +222,13 @@ body::before {
 .btn-search {
   background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
   color: white;
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
   border: none;
   border-radius: var(--radius-md);
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,7 +245,7 @@ body::before {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  /* transition: left 0.5s ease; */
 }
 
 .btn-search:hover::before {
@@ -298,12 +358,12 @@ body::before {
 }
 
 .developer-section {
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: center;
 }
 
 .developer-text {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -311,7 +371,7 @@ body::before {
 .developer-profiles {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
@@ -350,8 +410,22 @@ body::before {
 }
 
 @media (max-width: 768px) {
+  .page-wrapper {
+    max-width: 100%;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .search-container {
+    max-width: 100%;
+    padding: var(--spacing-md);
+  }
+
   .search-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .search-subtitle {
+    font-size: 1rem;
   }
 
   .search-card {
@@ -365,22 +439,42 @@ body::before {
   .btn-search {
     padding: var(--spacing-md);
   }
+}
 
-  .success-card {
-    padding: var(--spacing-xl);
+@media (max-width: 480px) {
+  body {
+    padding: var(--spacing-sm);
   }
 
-  .success-title {
-    font-size: 1.75rem;
+  .search-container {
+    padding: var(--spacing-sm);
   }
 
-  .success-message {
+  .search-title {
+    font-size: 1.25rem;
+  }
+
+  .search-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .search-card {
+    padding: var(--spacing-md);
+  }
+
+  .btn-search {
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: 1rem;
   }
 
-  .btn-back {
+  .search-form input[type=text],
+  .search-form button {
+    float: none;
     width: 100%;
-    justify-content: center;
+  }
+
+  .search-form button {
+    margin-top: 10px;
   }
 }
 
@@ -581,7 +675,7 @@ body::before {
 
 /* Short Student Info Styles */
 .student-short-info {
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -625,33 +719,4 @@ body::before {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.student-short-info {
-  margin-top: 1.5rem;
-  padding: 1rem 1.5rem;
-  background-color: #f0f9ff;
-  border: 1px solid #0ea5e9;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgb(14 165 233 / 0.1);
-  font-family: 'Inter', sans-serif;
-}
-
-.short-info-title {
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: #0369a1;
-  margin-bottom: 0.75rem;
-}
-
-.short-info-content p {
-  margin: 0.25rem 0;
-  font-size: 1rem;
-  color: #0c4a6e;
-}
-
-.clickable-enrollment {
-  cursor: pointer;
-  color: #0ea5e9;
-  text-decoration: underline;
 }

@@ -1,3 +1,7 @@
+<!-- index.html
+  -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +12,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/script.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='seo.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9VZP1RZ8G4"></script>
@@ -22,40 +27,49 @@
 </head>
 <body>
 
-    <div class="search-container animate-slide-in-up">
+    <div class="page-wrapper">
+        <div class="search-container animate-slide-in-up">
         <div class="search-header">
-            <h1 class="search-title">Student Portal</h1>
-            <p class="search-subtitle typewriter">
+            <img src="/static/logo.png" alt="Logo" class="logo" style="max-width: 240px; height: auto; margin-bottom: var(--spacing-md);">
+            <!-- <p class="search-subtitle typewriter">
                 Enter enrollment number to access the information
-            </p>
+            </p> -->
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+            <div class="spinner" style="border: 4px solid #c906ff; border-top: 4px solid #7a3b8c; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>
+            <p style="color: rgb(88, 255, 4); margin-left: 20px; font-size: 1.2rem;">Searching...</p>
         </div>
 
         <div class="search-card">
 
             <form method="POST" class="search-form" id="searchForm">
                 <div class="form-group">
-                    <!-- <label for="enroll_no" class="form-label">
+                    <label for="enroll_no" class="form-label">
                         Enrollment Number <span style="color: red;">*</span>
-                    </label> -->
+                    </label>
                     <input
                         name="enroll_no"
                         id="enroll_no"
-                        type="number"
+                        type="text"
                         placeholder="Enrollment Number"
                         class="search-input"
                         required
                         autocomplete="on"
+                    
                     />
                 </div>
-                <button type="submit" class="btn-search" id="searchBtn">
-                    <span class="search-icon">🔍</span>
-                    Search Student
+                <button type="submit" title="Search" aria-label="Search">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <span class="visually-hidden">Search</span>
                 </button>
+       
             </form>
 
-            <!-- Short Student Info Display -->
-            <div id="student-short-info" class="student-short-info" style="display: none;">
-                <h3 class="short-info-title">Student Found:</h3>
+            <div id="student-short-info" style="display: none;">
+              <h3>Student Found:</h3>
+
                 <div class="short-info-content">
                     <p><strong>Enrollment:</strong> <span id="short-enrollment" class="clickable-enrollment"></span></p>
                     <p><strong>Name:</strong> <span id="short-name"></span></p>
@@ -88,6 +102,7 @@
         </div>
         
 
+        </div>
     </div>
 
 <script>
@@ -109,13 +124,10 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const overlay = document.getElementById('loading-overlay');
-            overlay.style.display = 'flex';
             searchBtn.disabled = true;
             searchBtn.innerHTML = '<span class="search-icon">⏳</span> Searching...';
-            setTimeout(() => {
-
-        // Submit handler moved to script.js
+            // Submit handler moved to script.js
+        });
 
         // Focus animation
         enrollInput.addEventListener('focus', function() {
@@ -141,7 +153,6 @@
             item.style.transition = 'all 0.6s ease';
         });
     });
-
 </script>
 </body>
 

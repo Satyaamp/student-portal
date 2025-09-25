@@ -1,23 +1,32 @@
+<!--  student_info.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ student[1]|title }} ({{ student[0] }})</title>
+
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/student_info_custom.css') }}">
+
 </head>
+
 <body class="bg-gradient-to-br from-indigo-600 via-purple-700 to-pink-600 font-['Inter'] min-h-screen flex flex-col items-center justify-start p-6">
+
 
   <!-- HEADER -->
   <div class="student-header-box animate-fadeIn">
+    <img src="/static/logo.png" alt="Logo" class="logo" style="max-width: 240px; height: auto; margin-bottom: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
     <h1><i class="fa-solid fa-user-graduate mr-2"></i>{{ student[1] }}</h1>
     <p><strong>Branch:</strong> {{ student[7] }}</p>
     <p><strong>Division:</strong> {{ student[10] }}</p>
   </div>
+
 
   <!-- DETAILS -->
   <div class="student-details-container">
@@ -42,6 +51,7 @@
       <p><strong>Attendance:</strong> {{ student[14] }}%</p>
     </div>
 
+
     <div class="details-section pink-glass animate-slideUp">
       <h3><i class="fa-solid fa-building-columns mr-2"></i>Administrative Details</h3>
       <p><strong>Admission Year:</strong> {{ student[15] }}</p>
@@ -49,6 +59,7 @@
       <p><strong>Fee Status:</strong> {{ student[17] }}</p>
       <p><strong>Remarks:</strong> {{ student[18] }}</p>
     </div>
+
 
     <div class="details-section green-glass animate-slideUp">
       <h3><i class="fa-solid fa-calendar-days mr-2"></i>Timetable</h3>
@@ -59,9 +70,11 @@
     </div>
   </div>
 
+
   <!-- BACK BUTTON -->
   <div class="back-button-container animate-fadeIn">
     <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left mr-2"></i>Back to Search</a>
   </div>
+  
 </body>
 </html>
